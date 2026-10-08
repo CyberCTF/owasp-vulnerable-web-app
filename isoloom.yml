@@ -1,0 +1,43 @@
+# yaml-language-server: $schema=https://www.isoloom.com/schema/v1.json
+# OWASP Vulnerable Web Application as an Isoloom spec: the upstream PHP source, vendored unchanged
+# in build/web/app/, served by a PHP 7.4 / Apache image we wrote (upstream has no Dockerfile), and
+# a MariaDB machine. The image creates the database at first start.
+# `isoloom generate`, then `isoloom up docker`.
+version: 1
+name: owasp-vulnerable-web-app
+
+networks:
+  lab: { cidr: 10.60.27.0/24, internet: false }
+
+machines:
+  db:
+    networks: { lab: 20 }
+    services: [{ port: 3306, name: mariadb }]
+    resources: { cpus: 1, memory_mb: 512 }
+    volumes: { data: /var/lib/mysql }
+    docker:
+      build: build/db
+
+  web:
+    networks: { lab: 10 }
+    services: [{ port: 80, name: web, http: true, publish: 8027 }]
+    resources: { cpus: 1, memory_mb: 512 }
+    depends_on: [db]
+    docker:
+      build: build/web
+
+checks:
+  - name: the home page answers
+    http: http://web/homepage.html
+    wait: 180
+  - name: SQL injection level 1 reads the users table (the database is created)
+    script: checks/sqli.sh
+    wait: 90
+  - name: the command execution exercises are served
+    http: http://web/CommandExecution/CommandExec-1.php
+
+message: |
+  Vulnerable Web Application answers at
+  http://localhost:{{ machines.web.services.0.publish }}/homepage.html. The database is already
+  created (index.php resets it). Pick a category: Command Execution, File Inclusion, File
+  Upload, SQL or XSS, and work through its levels.
