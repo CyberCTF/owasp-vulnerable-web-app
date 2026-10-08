@@ -16,7 +16,7 @@ written for it (upstream ships no Dockerfile), with the database created at firs
 
 ```bash
 isoloom generate
-isoloom up docker
+isoloom run docker
 ```
 
 Then open http://localhost:8027/homepage.html. The database is already created; `index.php`
