@@ -4,6 +4,5 @@
   "question": "Work through every level of each category, from command execution to XSS.",
   "category": "WEB",
   "difficulty": 1,
-  "evidence_kind": "SECRET",
-  "capabilities": ["command-injection", "file-inclusion", "file-upload", "sql-injection", "cross-site-scripting"]
+  "evidence_kind": "SECRET"
 }
