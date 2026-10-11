@@ -1,0 +1,35 @@
+{
+  "objectives": [
+    {
+      "key": "main",
+      "title": "Read the flag",
+      "prompt": "Use the Command Execution category to run a command on the web server and read /ctf/flag.",
+      "check": { "evidence": "SECRET", "format": "FLAG{%s}" },
+      "dev": "FLAG{dev-owasp-vulnerable-web-app}",
+      "hints": [
+        "The first Command Execution level hands a query string value straight to the shell.",
+        "The later levels filter some characters: think about which shell metacharacters the filter forgets, as a class of bypass."
+      ],
+      "steps": [
+        {
+          "key": "category",
+          "title": "Pick the category",
+          "prompt": "Which category of the site runs operating system commands with your input?",
+          "check": { "answer": ["command execution", "commandexecution", "command injection"] }
+        },
+        {
+          "key": "parameter",
+          "title": "Find the input",
+          "prompt": "Which query string parameter does level 1 pass to the shell?",
+          "check": { "answer": ["username"] }
+        },
+        {
+          "key": "function",
+          "title": "Find the sink",
+          "prompt": "Which PHP function runs the command and returns its output?",
+          "check": { "answer": ["shell_exec", "shell_exec()"] }
+        }
+      ]
+    }
+  ]
+}
