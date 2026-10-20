@@ -1,8 +1,11 @@
 {
+  "project_name": "cyberlabs-owasp-vulnerable-web-app",
+  "slug": "owasp-vulnerable-web-app",
   "title": "OWASP Vulnerable Web Application",
   "description": "OWASP Vulnerable Web Application: a simple PHP/MySQL site with leveled exercises in five categories: command execution, file inclusion, file upload, SQL injection and cross-site scripting.",
-  "question": "Use the Command Execution category to run a command on the web server and read /ctf/flag.",
-  "category": "WEB",
+  "category": "web",
   "difficulty": 1,
-  "evidence_kind": "SECRET"
+  "evidence_kind": "SECRET",
+  "capabilities": [],
+  "question": "Use the Command Execution category to run a command on the web server and read /ctf/flag."
 }
